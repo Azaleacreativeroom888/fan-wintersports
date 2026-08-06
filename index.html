@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>銀世界ノート | 冬季スポーツ勉強帳</title>
+<meta name="description" content="フィギュアスケート、スキー、スノーボード、アイスホッケー…冬季スポーツについてゆっくり学ぶ個人の勉強ノートサイトです。">
+<style>
+  :root{
+    --sky: #cdeefa;
+    --sky-pale: #eaf8fd;
+    --sky-deep: #4fa8d8;
+    --night: #16213e;
+    --night-2: #1f2f52;
+    --snow: #fbfdff;
+    --ink: #22314a;
+    --ink-soft: #4d5f7d;
+    --aurora-1: #8cf5d1;
+    --aurora-2: #a8c8f5;
+    --aurora-3: #c9a8f5;
+    --aurora-4: #f5a8d1;
+    --line: #d3e9f2;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--snow);
+    color: var(--ink);
+    font-family: "Zen Maru Gothic","Noto Sans JP", sans-serif;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,h2,h3, .brand{
+    font-family: "Zen Old Mincho","Shippori Mincho", serif;
+    letter-spacing: 0.04em;
+  }
+  a{ color: inherit; text-decoration: none; }
+  img{ max-width:100%; display:block; }
+
+  /* ---------- skip link / focus ---------- */
+  .skip-link{
+    position:absolute; left:-999px; top:0;
+    background:#fff; color:#111; padding:.6em 1em; z-index:200;
+  }
+  .skip-link:focus{ left: 1em; top: 1em; }
+  a:focus-visible, button:focus-visible{
+    outline: 3px solid var(--aurora-3);
+    outline-offset: 3px;
+  }
+
+  /* ---------- header / nav ---------- */
+  header.site-header{
+    position: sticky; top:0; z-index: 100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 0.9em 5%;
+    background: rgba(22,33,62,0.72);
+    backdrop-filter: blur(6px);
+    color: #fff;
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:.6em;
+    font-size: 1.15rem;
+    color:#fff;
+  }
+  .brand small{
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: .18em;
+    color: var(--aurora-2);
+    text-transform: uppercase;
+  }
+  nav.main-nav ul{
+    list-style:none; display:flex; gap: 1.8em; margin:0; padding:0;
+    font-size: 0.85rem; letter-spacing: .06em;
+  }
+  nav.main-nav a{
+    position:relative; padding: .2em 0; color: #eaf6fb;
+  }
+  nav.main-nav a::after{
+    content:""; position:absolute; left:0; bottom:-3px; width:0; height:1px;
+    background: linear-gradient(90deg,var(--aurora-1),var(--aurora-3));
+    transition: width .25s ease;
+  }
+  nav.main-nav a:hover::after, nav.main-nav a[aria-current]::after{ width:100%; }
+  nav.main-nav a[aria-current]{ color: var(--aurora-1); }
+
+  .nav-toggle{ display:none; }
+
+  /* ---------- hero / aurora ---------- */
+  .hero{
+    position: relative;
+    overflow: hidden;
+    min-height: 78vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    background: linear-gradient(180deg, var(--night) 0%, var(--night-2) 42%, var(--sky-deep) 100%);
+    color:#fff;
+    padding: 6em 6% 8em;
+  }
+  .hero .stars{
+    position:absolute; inset:0 0 40% 0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 12% 20%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 28% 12%, #fff, transparent),
+      radial-gradient(1px 1px at 44% 30%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 63% 8%, #fff, transparent),
+      radial-gradient(1px 1px at 77% 22%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 90% 16%, #fff, transparent),
+      radial-gradient(1px 1px at 8% 40%, #fff, transparent),
+      radial-gradient(1px 1px at 55% 4%, #fff, transparent);
+    opacity:.8;
+    pointer-events:none;
+  }
+  .aurora-wrap{
+    position:absolute; inset: 8% 0 auto 0; height: 52%;
+    pointer-events:none;
+    mix-blend-mode: screen;
+    opacity: .85;
+  }
+  .aurora-wrap svg{ width:100%; height:100%; }
+  .aurora-band{ animation: drift 16s ease-in-out infinite; transform-origin: center; }
+  .aurora-band.b2{ animation-duration: 21s; animation-delay: -4s; }
+  .aurora-band.b3{ animation-duration: 26s; animation-delay: -9s; }
+  @keyframes drift{
+    0%,100%{ transform: translateX(-2%) translateY(0) scaleY(1); }
+    50%{ transform: translateX(2%) translateY(1.5%) scaleY(1.06); }
+  }
+
+  .hero-content{ position:relative; z-index:2; max-width: 46em; }
+  .eyebrow{
+    font-size: .78rem; letter-spacing:.32em; text-transform:uppercase;
+    color: var(--aurora-2); margin-bottom: 1.4em;
+  }
+  .hero h1{
+    font-size: clamp(2.3rem, 6vw, 3.6rem);
+    margin: 0 0 .5em;
+    color:#fff;
+  }
+  .hero h1 .sub{
+    display:block; font-size: .34em; letter-spacing:.5em;
+    color: var(--aurora-1); margin-top: .8em; font-family: "Zen Maru Gothic", sans-serif;
+  }
+  .hero p.lead{
+    font-size: 1.02rem; color: #dceefa; max-width: 34em; margin: 0 auto 2em;
+  }
+  .hero-actions{ display:flex; gap:1em; justify-content:center; flex-wrap:wrap; }
+  .btn{
+    display:inline-block; padding: .85em 1.8em; border-radius: 999px;
+    font-size: .85rem; letter-spacing:.08em;
+    border: 1px solid rgba(255,255,255,.5);
+    transition: transform .2s ease, background .2s ease, border-color .2s ease;
+  }
+  .btn.primary{
+    background: linear-gradient(90deg, var(--aurora-1), var(--aurora-2) 55%, var(--aurora-3));
+    color: var(--night); border-color: transparent; font-weight:700;
+  }
+  .btn:hover{ transform: translateY(-2px); }
+  .btn.ghost:hover{ border-color:#fff; }
+
+  /* wave divider under hero */
+  .wave-divider{ display:block; width:100%; line-height:0; position:relative; z-index:3; margin-top:-4px;}
+  .wave-divider svg{ width:100%; height: 70px; display:block; }
+
+  /* ---------- sections ---------- */
+  main{ background: var(--snow); }
+  section{ padding: 5.5em 6%; max-width: 1180px; margin: 0 auto; }
+  .section-head{ max-width: 40em; margin: 0 auto 2.6em; text-align:center; }
+  .section-head .eyebrow{ color: var(--sky-deep); }
+  .section-head h2{ font-size: clamp(1.5rem,3.2vw,2rem); margin:.2em 0 .5em; color: var(--ink); }
+  .section-head p{ color: var(--ink-soft); margin:0; font-size:.95rem; }
+
+  .intro{
+    background: linear-gradient(180deg, var(--sky-pale), var(--snow));
+  }
+  .intro-grid{
+    display:grid; grid-template-columns: 1.1fr 1fr; gap: 3em; align-items:center;
+  }
+  .intro-card{
+    background:#fff; border: 1px solid var(--line); border-radius: 20px;
+    padding: 2em 2.2em; box-shadow: 0 18px 40px -28px rgba(22,33,62,.35);
+  }
+  .intro-card h3{ margin-top:0; font-size:1.15rem; }
+  .intro-card p{ color: var(--ink-soft); font-size:.94rem; margin-bottom: 0; }
+  .ice-lines{ position:relative; height: 220px; border-radius:20px; overflow:hidden;
+    background: linear-gradient(160deg,#eaf8fd,#cdeefa);}
+  .ice-lines svg{ position:absolute; inset:0; width:100%; height:100%; }
+
+  /* ---------- sport grid ---------- */
+  .sport-grid{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 1.4em;
+  }
+  .sport-card{
+    position:relative;
+    background:#fff; border:1px solid var(--line); border-radius: 18px;
+    padding: 1.6em 1.5em 1.8em;
+    overflow:hidden;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .sport-card:hover{ transform: translateY(-4px); box-shadow: 0 20px 34px -24px rgba(22,33,62,.4); }
+  .sport-card .tag{
+    font-size: .68rem; letter-spacing:.14em; color: var(--sky-deep); text-transform:uppercase;
+  }
+  .sport-card h3{ margin:.35em 0 .4em; font-size: 1.08rem; }
+  .sport-card p{ margin:0; color: var(--ink-soft); font-size:.88rem; }
+  .sport-card .wave-foot{
+    position:absolute; left:0; right:0; bottom:0; height:16px; opacity:.5;
+  }
+  .sport-card .wave-foot svg{ width:100%; height:100%; }
+
+  /* ---------- log preview ---------- */
+  .log{ background: var(--night); color:#eaf6fb; border-radius: 26px; margin: 0 6%; padding: 4em 6%; }
+  .log .section-head p{ color:#b9cbe0; }
+  .log .section-head h2{ color:#fff; }
+  .log-list{ list-style:none; margin:0 auto; padding:0; max-width: 46em; display:flex; flex-direction:column; gap: 1em; }
+  .log-list li{
+    display:flex; gap:1.2em; align-items:baseline;
+    padding: 1em 0; border-bottom: 1px solid rgba(255,255,255,.12);
+    font-size:.92rem;
+  }
+  .log-list time{
+    font-family: "JetBrains Mono", monospace; color: var(--aurora-1); font-size:.8rem; flex: 0 0 6.4em;
+  }
+  .log-cta{ text-align:center; margin-top: 2.4em; }
+
+  /* ---------- footer ---------- */
+  footer{
+    position:relative; margin-top: 4em; padding: 4em 6% 3em;
+    background: linear-gradient(180deg, var(--sky-pale), var(--sky));
+    color: var(--ink);
+  }
+  .footer-wave{ margin-top:-1px; }
+  .footer-wave svg{ width:100%; height:60px; display:block; }
+  .footer-grid{
+    display:flex; flex-wrap:wrap; gap:2.5em; justify-content:space-between;
+    max-width: 1180px; margin: 0 auto 2.5em;
+  }
+  .footer-brand .brand{ color: var(--ink); font-size:1.1rem; }
+  .footer-brand p{ color: var(--ink-soft); max-width: 24em; font-size:.86rem; }
+  .footer-links{ display:flex; gap:3em; flex-wrap:wrap; }
+  .footer-links h4{
+    font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color: var(--sky-deep);
+    margin:0 0 .8em;
+  }
+  .footer-links ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.55em; font-size:.88rem; }
+  .footer-links a:hover{ color: var(--sky-deep); }
+  .footer-bottom{
+    max-width:1180px; margin:0 auto; padding-top:1.6em; border-top:1px solid rgba(34,49,74,.12);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:.6em;
+    font-size:.76rem; color: var(--ink-soft);
+  }
+
+  @media (max-width: 780px){
+    nav.main-nav ul{ display:none; }
+    .intro-grid{ grid-template-columns: 1fr; }
+    section{ padding: 4em 6%; }
+    .log{ margin: 0 4%; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .aurora-band{ animation: none; }
+    html{ scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="site-header">
+  <a class="brand" href="index.html">銀世界ノート <small>Snow &amp; Ice Study</small></a>
+  <nav class="main-nav" aria-label="サイト内ナビゲーション">
+    <ul>
+      <li><a href="index.html" aria-current="page">HOME</a></li>
+      <li><a href="blog.html">BLOG</a></li>
+      <li><a href="gallery.html">GALLERY</a></li>
+      <li><a href="about.html">ABOUT</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="stars" aria-hidden="true"></div>
+  <div class="aurora-wrap" aria-hidden="true">
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="auroraGrad1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#8cf5d1" stop-opacity="0"/>
+          <stop offset="35%" stop-color="#8cf5d1" stop-opacity=".55"/>
+          <stop offset="65%" stop-color="#a8c8f5" stop-opacity=".55"/>
+          <stop offset="100%" stop-color="#c9a8f5" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="auroraGrad2" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#f5a8d1" stop-opacity="0"/>
+          <stop offset="45%" stop-color="#c9a8f5" stop-opacity=".45"/>
+          <stop offset="100%" stop-color="#8cf5d1" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="auroraGrad3" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#a8c8f5" stop-opacity="0"/>
+          <stop offset="50%" stop-color="#f5a8d1" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="#a8c8f5" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path class="aurora-band b1" d="M0,120 C150,60 300,180 450,110 C600,40 750,160 900,100 C1000,60 1100,110 1200,90 L1200,260 C1050,300 900,200 750,240 C600,280 450,190 300,230 C180,260 90,220 0,250 Z" fill="url(#auroraGrad1)"/>
+      <path class="aurora-band b2" d="M0,180 C160,140 320,230 470,170 C630,110 780,210 940,160 C1040,130 1120,160 1200,150 L1200,320 C1060,340 920,260 780,290 C630,320 470,250 320,280 C200,300 100,270 0,300 Z" fill="url(#auroraGrad2)"/>
+      <path class="aurora-band b3" d="M0,90 C140,40 300,130 460,80 C620,30 760,110 920,70 C1020,45 1110,80 1200,60 L1200,180 C1060,210 920,150 780,170 C630,190 470,140 320,160 C190,180 90,160 0,180 Z" fill="url(#auroraGrad3)"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <p class="eyebrow">Winter Sports Study Notes</p>
+    <h1>銀世界ノート<span class="sub">GIN-SEKAI NOTE</span></h1>
+    <p class="lead">氷の上、雪の上で繰り広げられる競技を、少しずつ学んでいくための個人ノート。ルール、歴史、選手のこと、見るたびに気づいたことを記録していきます。</p>
+    <div class="hero-actions">
+      <a class="btn primary" href="blog.html">学びの記録を読む</a>
+      <a class="btn ghost" href="#sports">種目を見る</a>
+    </div>
+  </div>
+</div>
+
+<div class="wave-divider" aria-hidden="true">
+  <svg viewBox="0 0 1200 70" preserveAspectRatio="none">
+    <path d="M0,40 C150,10 300,60 450,35 C600,10 750,55 900,30 C1000,15 1100,35 1200,25 L1200,70 L0,70 Z" fill="#fbfdff"/>
+  </svg>
+</div>
+
+<main id="main">
+
+  <section class="intro">
+    <div class="intro-grid">
+      <div class="intro-card">
+        <p class="eyebrow" style="color:var(--sky-deep)">About this notebook</p>
+        <h3>このサイトについて</h3>
+        <p>フィギュアスケートをきっかけに、冬季スポーツ全般をもっと深く知りたくて始めた勉強ノートです。ルールの細かい違い、採点の仕組み、大会の歴史など、調べたことをここに少しずつ積み重ねています。専門的な解説というより、あくまで「学びながら書いているノート」というスタンスです。</p>
+      </div>
+      <div class="ice-lines" role="img" aria-label="波打つ氷の模様のイラスト">
+        <svg viewBox="0 0 400 220" preserveAspectRatio="none">
+          <path d="M0,60 C60,30 120,90 180,55 C240,20 300,80 400,45" stroke="#4fa8d8" stroke-width="2" fill="none" opacity=".5"/>
+          <path d="M0,110 C70,80 140,140 210,100 C280,60 330,130 400,95" stroke="#4fa8d8" stroke-width="2" fill="none" opacity=".35"/>
+          <path d="M0,160 C60,190 140,140 210,175 C280,210 330,150 400,180" stroke="#4fa8d8" stroke-width="2" fill="none" opacity=".3"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="sports">
+    <div class="section-head">
+      <p class="eyebrow">Discipline Guide</p>
+      <h2>種目ガイド</h2>
+      <p>冬季競技の主な種目。ページを増やしながら、少しずつ詳しいまとめに育てていく予定です。</p>
+    </div>
+    <div class="sport-grid">
+
+      <article class="sport-card">
+        <p class="tag">Ice / 氷上</p>
+        <h3>フィギュアスケート</h3>
+        <p>ジャンプ、スピン、ステップの技術と表現力を競う。採点方式の理解が鍵。</p>
+        <div class="wave-foot" aria-hidden="true"><svg viewBox="0 0 200 16" preserveAspectRatio="none"><path d="M0,8 C25,2 50,14 75,8 C100,2 125,14 150,8 C175,2 190,10 200,7" stroke="#a8d8ec" stroke-width="1.5" fill="none"/></svg></div>
+      </article>
+
+      <article class="sport-card">
+        <p class="tag">Snow / 雪上</p>
+        <h3>アルペンスキー</h3>
+        <p>斜面を滑降し速さを競う。滑降・回転・大回転などの種目差を整理中。</p>
+        <div class="wave-foot" aria-hidden="true"><svg viewBox="0 0 200 16" preserveAspectRatio="none"><path d="M0,8 C25,2 50,14 75,8 C100,2 125,14 150,8 C175,2 190,10 200,7" stroke="#a8d8ec" stroke-width="1.5" fill="none"/></svg></div>
+      </article>
+
+      <article class="sport-card">
+        <p class="tag">Snow / 雪上</p>
+        <h3>スノーボード</h3>
+        <p>ハーフパイプ、スロープスタイルなど、種目ごとに評価の視点が異なる。</p>
+        <div class="wave-foot" aria-hidden="true"><svg viewBox="0 0 200 16" preserveAspectRatio="none"><path d="M0,8 C25,2 50,14 75,8 C100,2 125,14 150,8 C175,2 190,10 200,7" stroke="#a8d8ec" stroke-width="1.5" fill="none"/></svg></div>
+      </article>
+
+      <article class="sport-card">
+        <p class="tag">Ice / 氷上</p>
+        <h3>アイスホッケー</h3>
+        <p>チーム戦術とルールが複雑。ポジションや反則の種類から学び中。</p>
+        <div class="wave-foot" aria-hidden="true"><svg viewBox="0 0 200 16" preserveAspectRatio="none"><path d="M0,8 C25,2 50,14 75,8 C100,2 125,14 150,8 C175,2 190,10 200,7" stroke="#a8d8ec" stroke-width="1.5" fill="none"/></svg></div>
+      </article>
+
+      <article class="sport-card">
+        <p class="tag">Ice / 氷上</p>
+        <h3>スピードスケート</h3>
+        <p>直線的な速さを競う。ショートトラックとの違いを整理していきたい。</p>
+        <div class="wave-foot" aria-hidden="true"><svg viewBox="0 0 200 16" preserveAspectRatio="none"><path d="M0,8 C25,2 50,14 75,8 C100,2 125,14 150,8 C175,2 190,10 200,7" stroke="#a8d8ec" stroke-width="1.5" fill="none"/></svg></div>
+      </article>
+
+      <article class="sport-card">
+        <p class="tag">Ice / 氷上</p>
+        <h3>カーリング</h3>
+        <p>「氷上のチェス」と呼ばれる戦略性。ストーンの動きと読み合いを勉強中。</p>
+        <div class="wave-foot" aria-hidden="true"><svg viewBox="0 0 200 16" preserveAspectRatio="none"><path d="M0,8 C25,2 50,14 75,8 C100,2 125,14 150,8 C175,2 190,10 200,7" stroke="#a8d8ec" stroke-width="1.5" fill="none"/></svg></div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="log">
+    <div class="section-head">
+      <p class="eyebrow">Study Log</p>
+      <h2>最近の学び</h2>
+      <p>日々の気づきは blog.html にまとめています。ここではその一部を紹介。</p>
+    </div>
+    <ul class="log-list">
+      <li><time>2026.08.03</time><span>フィギュアスケートの回転不足判定について調べた。エッジの見分け方が少しわかってきた。</span></li>
+      <li><time>2026.07.28</time><span>カーリングのストーンの重さとハウスの構造を確認。思ったより奥が深い。</span></li>
+      <li><time>2026.07.19</time><span>アルペンスキーの種目差(滑降・大回転・回転)をノートに整理した。</span></li>
+    </ul>
+    <div class="log-cta">
+      <a class="btn ghost" href="blog.html" style="border-color:rgba(255,255,255,.5)">すべての記録を見る →</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="index.html">銀世界ノート</a>
+      <p>冬季スポーツについて学んだことを、自分のペースで記録していく個人サイトです。</p>
+    </div>
+    <div class="footer-links">
+      <div>
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 銀世界ノート</span>
+    <span>Individual study notes on winter sports</span>
+  </div>
+</footer>
+
+</body>
+</html>
