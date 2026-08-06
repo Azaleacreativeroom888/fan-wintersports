@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLOG | 銀世界ノート</title>
+<meta name="description" content="冬季スポーツについて学んだことを、日付ごとに記録していく日記ページです。">
+<style>
+  :root{
+    --sky: #cdeefa;
+    --sky-pale: #eaf8fd;
+    --sky-deep: #4fa8d8;
+    --night: #16213e;
+    --night-2: #1f2f52;
+    --snow: #fbfdff;
+    --ink: #22314a;
+    --ink-soft: #4d5f7d;
+    --aurora-1: #8cf5d1;
+    --aurora-2: #a8c8f5;
+    --aurora-3: #c9a8f5;
+    --aurora-4: #f5a8d1;
+    --line: #d3e9f2;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--snow);
+    color: var(--ink);
+    font-family: "Zen Maru Gothic","Noto Sans JP", sans-serif;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,h2,h3, .brand{
+    font-family: "Zen Old Mincho","Shippori Mincho", serif;
+    letter-spacing: 0.04em;
+  }
+  a{ color: inherit; text-decoration: none; }
+
+  .skip-link{
+    position:absolute; left:-999px; top:0;
+    background:#fff; color:#111; padding:.6em 1em; z-index:200;
+  }
+  .skip-link:focus{ left: 1em; top: 1em; }
+  a:focus-visible, button:focus-visible{
+    outline: 3px solid var(--aurora-3);
+    outline-offset: 3px;
+  }
+
+  /* ---------- header / nav ---------- */
+  header.site-header{
+    position: sticky; top:0; z-index: 100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 0.9em 5%;
+    background: rgba(22,33,62,0.88);
+    backdrop-filter: blur(6px);
+    color: #fff;
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:.6em;
+    font-size: 1.15rem;
+    color:#fff;
+  }
+  .brand small{
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: .18em;
+    color: var(--aurora-2);
+    text-transform: uppercase;
+  }
+  nav.main-nav ul{
+    list-style:none; display:flex; gap: 1.8em; margin:0; padding:0;
+    font-size: 0.85rem; letter-spacing: .06em;
+  }
+  nav.main-nav a{
+    position:relative; padding: .2em 0; color: #eaf6fb;
+  }
+  nav.main-nav a::after{
+    content:""; position:absolute; left:0; bottom:-3px; width:0; height:1px;
+    background: linear-gradient(90deg,var(--aurora-1),var(--aurora-3));
+    transition: width .25s ease;
+  }
+  nav.main-nav a:hover::after, nav.main-nav a[aria-current]::after{ width:100%; }
+  nav.main-nav a[aria-current]{ color: var(--aurora-1); }
+
+  /* ---------- page hero (small) ---------- */
+  .page-hero{
+    position: relative; overflow:hidden;
+    padding: 4.5em 6% 6em;
+    text-align:center; color:#fff;
+    background: linear-gradient(160deg, var(--night) 0%, var(--night-2) 55%, var(--sky-deep) 130%);
+  }
+  .page-hero .band{
+    position:absolute; inset:auto 0 -10% 0; height:70%;
+    mix-blend-mode: screen; opacity:.6; pointer-events:none;
+  }
+  .page-hero .band svg{ width:100%; height:100%; }
+  .page-hero .eyebrow{
+    font-size:.75rem; letter-spacing:.32em; text-transform:uppercase; color: var(--aurora-2);
+    margin-bottom: .8em; position:relative; z-index:2;
+  }
+  .page-hero h1{ margin:0; font-size: clamp(1.9rem,5vw,2.7rem); position:relative; z-index:2; }
+  .page-hero p{ color:#dceefa; max-width:32em; margin: .8em auto 0; font-size:.95rem; position:relative; z-index:2; }
+
+  .wave-divider{ display:block; width:100%; line-height:0; margin-top:-4px; }
+  .wave-divider svg{ width:100%; height: 60px; display:block; }
+
+  /* ---------- diary list ---------- */
+  main{ background: var(--snow); }
+  .diary{ max-width: 720px; margin: 0 auto; padding: 5em 6% 6em; }
+  .diary-intro{ text-align:center; margin-bottom: 3em; }
+  .diary-intro p{ color: var(--ink-soft); font-size:.92rem; }
+
+  .month-label{
+    display:flex; align-items:center; gap: .8em;
+    font-family: "JetBrains Mono", monospace;
+    font-size: .78rem; letter-spacing:.12em; color: var(--sky-deep);
+    margin: 2.6em 0 1.2em;
+  }
+  .month-label::after{
+    content:""; flex:1; height:1px;
+    background: linear-gradient(90deg, var(--line), transparent);
+  }
+  .month-label:first-of-type{ margin-top: 0; }
+
+  .entry{
+    position:relative;
+    padding: 1.6em 0 1.6em 2.4em;
+    border-bottom: 1px solid var(--line);
+  }
+  .entry:last-child{ border-bottom:none; }
+  .entry::before{
+    content:"";
+    position:absolute; left: 0; top: 2.1em;
+    width: 9px; height:9px; border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, var(--aurora-1), var(--sky-deep));
+  }
+  .entry::after{
+    content:"";
+    position:absolute; left: 4px; top: 2.7em; bottom: -1px;
+    width: 1px;
+    background: var(--line);
+  }
+  .entry:last-child::after{ display:none; }
+  .entry time{
+    display:block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: .78rem; letter-spacing:.06em; color: var(--sky-deep);
+    margin-bottom: .5em;
+  }
+  .entry p{ margin:0; color: var(--ink); font-size: .96rem; }
+
+  .load-more{ text-align:center; margin-top: 3em; }
+  .btn{
+    display:inline-block; padding: .8em 1.7em; border-radius: 999px;
+    font-size: .82rem; letter-spacing:.08em;
+    border: 1px solid var(--line); color: var(--ink-soft);
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .btn:hover{ border-color: var(--sky-deep); color: var(--sky-deep); }
+
+  /* ---------- footer ---------- */
+  footer{
+    position:relative; margin-top: 2em; padding: 4em 6% 3em;
+    background: linear-gradient(180deg, var(--sky-pale), var(--sky));
+    color: var(--ink);
+  }
+  .footer-grid{
+    display:flex; flex-wrap:wrap; gap:2.5em; justify-content:space-between;
+    max-width: 1180px; margin: 0 auto 2.5em;
+  }
+  .footer-brand .brand{ color: var(--ink); font-size:1.1rem; }
+  .footer-brand p{ color: var(--ink-soft); max-width: 24em; font-size:.86rem; }
+  .footer-links h4{
+    font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color: var(--sky-deep);
+    margin:0 0 .8em;
+  }
+  .footer-links ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.55em; font-size:.88rem; }
+  .footer-links a:hover{ color: var(--sky-deep); }
+  .footer-bottom{
+    max-width:1180px; margin:0 auto; padding-top:1.6em; border-top:1px solid rgba(34,49,74,.12);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:.6em;
+    font-size:.76rem; color: var(--ink-soft);
+  }
+
+  @media (max-width: 780px){
+    nav.main-nav ul{ display:none; }
+    .diary{ padding: 4em 6%; }
+  }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="site-header">
+  <a class="brand" href="index.html">銀世界ノート <small>Snow &amp; Ice Study</small></a>
+  <nav class="main-nav" aria-label="サイト内ナビゲーション">
+    <ul>
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="blog.html" aria-current="page">BLOG</a></li>
+      <li><a href="gallery.html">GALLERY</a></li>
+      <li><a href="about.html">ABOUT</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="band" aria-hidden="true">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="bandGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#8cf5d1" stop-opacity="0"/>
+          <stop offset="45%" stop-color="#a8c8f5" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="#c9a8f5" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="M0,120 C200,60 400,170 600,110 C800,50 1000,150 1200,100 L1200,250 C1000,290 800,210 600,240 C400,270 200,220 0,250 Z" fill="url(#bandGrad)"/>
+    </svg>
+  </div>
+  <p class="eyebrow">Study Diary</p>
+  <h1>BLOG</h1>
+  <p>気づいたこと、調べたことを、日付ごとに残しておく記録帳。</p>
+</div>
+
+<div class="wave-divider" aria-hidden="true">
+  <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+    <path d="M0,35 C150,10 300,50 450,30 C600,10 750,45 900,25 C1000,12 1100,28 1200,20 L1200,60 L0,60 Z" fill="#fbfdff"/>
+  </svg>
+</div>
+
+<main id="main">
+  <div class="diary">
+    <div class="diary-intro">
+      <p>日々の勉強メモです。内容は思いつくまま、日付順に並んでいます。</p>
+    </div>
+
+    <div class="month-label">2026 / 08</div>
+
+    <article class="entry">
+      <time>08.03</time>
+      <p>フィギュアスケートの回転不足判定について調べた。踏切と着氷のエッジをどう見分けるか、まだ完全にはわからないけれど、少しずつ動画で目が慣れてきた気がする。</p>
+    </article>
+
+    <article class="entry">
+      <time>08.01</time>
+      <p>スピードスケートとショートトラックの違いをノートにまとめた。同じ「氷上を滑る速さ比べ」でも、トラックの形もルールも別物なのが面白い。</p>
+    </article>
+
+    <div class="month-label">2026 / 07</div>
+
+    <article class="entry">
+      <time>07.28</time>
+      <p>カーリングのストーンの重さとハウスの構造を確認。思っていたより緻密な戦略ゲームで、「氷上のチェス」と呼ばれる理由が少しわかった。</p>
+    </article>
+
+    <article class="entry">
+      <time>07.19</time>
+      <p>アルペンスキーの種目差(滑降・スーパー大回転・大回転・回転)を整理した。ゲートの間隔とスピードの関係がポイントらしい。</p>
+    </article>
+
+    <article class="entry">
+      <time>07.10</time>
+      <p>スノーボードのハーフパイプとスロープスタイルの採点基準を比較。技の難易度だけでなく、構成の組み立て方も評価されるのが興味深い。</p>
+    </article>
+
+    <div class="month-label">2026 / 06</div>
+
+    <article class="entry">
+      <time>06.22</time>
+      <p>アイスホッケーのポジションとオフサイドのルールを勉強した。ルールは複雑だけど、試合のスピード感がなぜ生まれるのか少し見えてきた。</p>
+    </article>
+
+    <article class="entry">
+      <time>06.09</time>
+      <p>このサイトを作り始めた日。まずは学んだことを書き留める場所として、少しずつ育てていきたい。</p>
+    </article>
+
+    <div class="load-more">
+      <a class="btn" href="#main">これより前の記録（準備中）</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="index.html">銀世界ノート</a>
+      <p>冬季スポーツについて学んだことを、自分のペースで記録していく個人サイトです。</p>
+    </div>
+    <div class="footer-links">
+      <div>
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 銀世界ノート</span>
+    <span>Individual study notes on winter sports</span>
+  </div>
+</footer>
+
+</body>
+</html>
