@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GALLERY | 銀世界ノート</title>
+<meta name="description" content="冬季スポーツにまつわる情景をまとめたイメージギャラリーです。">
+<style>
+  :root{
+    --sky: #cdeefa;
+    --sky-pale: #eaf8fd;
+    --sky-deep: #4fa8d8;
+    --night: #16213e;
+    --night-2: #1f2f52;
+    --snow: #fbfdff;
+    --ink: #22314a;
+    --ink-soft: #4d5f7d;
+    --aurora-1: #8cf5d1;
+    --aurora-2: #a8c8f5;
+    --aurora-3: #c9a8f5;
+    --aurora-4: #f5a8d1;
+    --line: #d3e9f2;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--snow);
+    color: var(--ink);
+    font-family: "Zen Maru Gothic","Noto Sans JP", sans-serif;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,h2,h3, .brand{
+    font-family: "Zen Old Mincho","Shippori Mincho", serif;
+    letter-spacing: 0.04em;
+  }
+  a{ color: inherit; text-decoration: none; }
+
+  .skip-link{
+    position:absolute; left:-999px; top:0;
+    background:#fff; color:#111; padding:.6em 1em; z-index:200;
+  }
+  .skip-link:focus{ left: 1em; top: 1em; }
+  a:focus-visible, button:focus-visible{
+    outline: 3px solid var(--aurora-3);
+    outline-offset: 3px;
+  }
+
+  /* ---------- header / nav ---------- */
+  header.site-header{
+    position: sticky; top:0; z-index: 100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 0.9em 5%;
+    background: rgba(22,33,62,0.88);
+    backdrop-filter: blur(6px);
+    color: #fff;
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:.6em;
+    font-size: 1.15rem;
+    color:#fff;
+  }
+  .brand small{
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: .18em;
+    color: var(--aurora-2);
+    text-transform: uppercase;
+  }
+  nav.main-nav ul{
+    list-style:none; display:flex; gap: 1.8em; margin:0; padding:0;
+    font-size: 0.85rem; letter-spacing: .06em;
+  }
+  nav.main-nav a{
+    position:relative; padding: .2em 0; color: #eaf6fb;
+  }
+  nav.main-nav a::after{
+    content:""; position:absolute; left:0; bottom:-3px; width:0; height:1px;
+    background: linear-gradient(90deg,var(--aurora-1),var(--aurora-3));
+    transition: width .25s ease;
+  }
+  nav.main-nav a:hover::after, nav.main-nav a[aria-current]::after{ width:100%; }
+  nav.main-nav a[aria-current]{ color: var(--aurora-1); }
+
+  /* ---------- page hero (small) ---------- */
+  .page-hero{
+    position: relative; overflow:hidden;
+    padding: 4.5em 6% 6em;
+    text-align:center; color:#fff;
+    background: linear-gradient(160deg, var(--night) 0%, var(--night-2) 55%, var(--sky-deep) 130%);
+  }
+  .page-hero .band{
+    position:absolute; inset:auto 0 -10% 0; height:70%;
+    mix-blend-mode: screen; opacity:.6; pointer-events:none;
+  }
+  .page-hero .band svg{ width:100%; height:100%; }
+  .page-hero .eyebrow{
+    font-size:.75rem; letter-spacing:.32em; text-transform:uppercase; color: var(--aurora-2);
+    margin-bottom: .8em; position:relative; z-index:2;
+  }
+  .page-hero h1{ margin:0; font-size: clamp(1.9rem,5vw,2.7rem); position:relative; z-index:2; }
+  .page-hero p{ color:#dceefa; max-width:32em; margin: .8em auto 0; font-size:.95rem; position:relative; z-index:2; }
+
+  .wave-divider{ display:block; width:100%; line-height:0; margin-top:-4px; }
+  .wave-divider svg{ width:100%; height: 60px; display:block; }
+
+  /* ---------- filter ---------- */
+  main{ background: var(--snow); }
+  .gallery-wrap{ max-width: 1180px; margin: 0 auto; padding: 4.5em 6% 6em; }
+  .gallery-intro{ text-align:center; max-width:34em; margin: 0 auto 2.4em; }
+  .gallery-intro p{ color: var(--ink-soft); font-size:.92rem; }
+
+  .filters{
+    display:flex; gap:.7em; justify-content:center; flex-wrap:wrap;
+    margin-bottom: 2.8em;
+  }
+  .filter-btn{
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-size:.8rem; letter-spacing:.05em;
+    padding: .55em 1.3em; border-radius: 999px;
+    border: 1px solid var(--line); background:#fff; color: var(--ink-soft);
+    cursor:pointer; transition: all .2s ease;
+  }
+  .filter-btn:hover{ border-color: var(--sky-deep); color: var(--sky-deep); }
+  .filter-btn.active{
+    background: linear-gradient(90deg,var(--aurora-1),var(--aurora-2));
+    border-color: transparent; color: var(--night); font-weight:700;
+  }
+
+  /* ---------- grid ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
+    gap: 1.4em;
+  }
+  .tile{
+    position:relative;
+    border-radius: 18px;
+    overflow:hidden;
+    border: 1px solid var(--line);
+    background:#fff;
+    transition: transform .3s ease, box-shadow .3s ease, opacity .3s ease;
+  }
+  .tile:hover{ transform: translateY(-4px); box-shadow: 0 22px 36px -26px rgba(22,33,62,.42); }
+  .tile.is-hidden{ display:none; }
+  .tile .scene{
+    aspect-ratio: 4/3; width:100%; position:relative; overflow:hidden;
+  }
+  .tile .scene svg{ position:absolute; inset:0; width:100%; height:100%; }
+  .tile figcaption{
+    padding: 1em 1.1em 1.2em;
+  }
+  .tile .cap-tag{
+    font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color: var(--sky-deep);
+  }
+  .tile .cap-title{ margin:.3em 0 0; font-size:.98rem; }
+
+  /* scene palettes */
+  .scene.ice{ background: linear-gradient(160deg,#eaf8fd,#bfe4f3); }
+  .scene.snow{ background: linear-gradient(160deg,#f3fbff,#cdeefa); }
+  .scene.sky{ background: linear-gradient(160deg,#16213e,#3d5a8a); }
+
+  /* ---------- footer ---------- */
+  footer{
+    position:relative; margin-top: 2em; padding: 4em 6% 3em;
+    background: linear-gradient(180deg, var(--sky-pale), var(--sky));
+    color: var(--ink);
+  }
+  .footer-grid{
+    display:flex; flex-wrap:wrap; gap:2.5em; justify-content:space-between;
+    max-width: 1180px; margin: 0 auto 2.5em;
+  }
+  .footer-brand .brand{ color: var(--ink); font-size:1.1rem; }
+  .footer-brand p{ color: var(--ink-soft); max-width: 24em; font-size:.86rem; }
+  .footer-links h4{
+    font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color: var(--sky-deep);
+    margin:0 0 .8em;
+  }
+  .footer-links ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.55em; font-size:.88rem; }
+  .footer-links a:hover{ color: var(--sky-deep); }
+  .footer-bottom{
+    max-width:1180px; margin:0 auto; padding-top:1.6em; border-top:1px solid rgba(34,49,74,.12);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:.6em;
+    font-size:.76rem; color: var(--ink-soft);
+  }
+
+  @media (max-width: 780px){
+    nav.main-nav ul{ display:none; }
+  }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="site-header">
+  <a class="brand" href="index.html">銀世界ノート <small>Snow &amp; Ice Study</small></a>
+  <nav class="main-nav" aria-label="サイト内ナビゲーション">
+    <ul>
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="blog.html">BLOG</a></li>
+      <li><a href="gallery.html" aria-current="page">GALLERY</a></li>
+      <li><a href="about.html">ABOUT</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="band" aria-hidden="true">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="bandGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#f5a8d1" stop-opacity="0"/>
+          <stop offset="45%" stop-color="#8cf5d1" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="#a8c8f5" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="M0,120 C200,60 400,170 600,110 C800,50 1000,150 1200,100 L1200,250 C1000,290 800,210 600,240 C400,270 200,220 0,250 Z" fill="url(#bandGrad)"/>
+    </svg>
+  </div>
+  <p class="eyebrow">Image Notes</p>
+  <h1>GALLERY</h1>
+  <p>氷、雪、空。冬季スポーツを学ぶ中で心に残った情景を、簡単なイラストで記録しています。</p>
+</div>
+
+<div class="wave-divider" aria-hidden="true">
+  <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+    <path d="M0,35 C150,10 300,50 450,30 C600,10 750,45 900,25 C1000,12 1100,28 1200,20 L1200,60 L0,60 Z" fill="#fbfdff"/>
+  </svg>
+</div>
+
+<main id="main">
+  <div class="gallery-wrap">
+    <div class="gallery-intro">
+      <p>写真の代わりに、印象に残った場面を簡単なイラストで残しています。カテゴリで絞り込めます。</p>
+    </div>
+
+    <div class="filters" role="group" aria-label="カテゴリで絞り込む">
+      <button class="filter-btn active" data-filter="all">すべて</button>
+      <button class="filter-btn" data-filter="ice">氷上</button>
+      <button class="filter-btn" data-filter="snow">雪上</button>
+      <button class="filter-btn" data-filter="sky">空</button>
+    </div>
+
+    <div class="grid" id="galleryGrid">
+
+      <figure class="tile" data-category="ice">
+        <div class="scene ice">
+          <svg viewBox="0 0 300 220" preserveAspectRatio="none">
+            <path d="M0,150 C40,120 80,170 130,140 C180,110 220,160 300,130 L300,220 L0,220 Z" fill="#a8d8ec" opacity=".7"/>
+            <path d="M20,180 C60,160 110,195 160,175 C210,155 250,190 290,170" stroke="#4fa8d8" stroke-width="2" fill="none" opacity=".6"/>
+            <circle cx="150" cy="90" r="18" fill="#fff" opacity=".85"/>
+          </svg>
+        </div>
+        <figcaption>
+          <p class="cap-tag">Ice / リンク</p>
+          <p class="cap-title">早朝のリンク</p>
+        </figcaption>
+      </figure>
+
+      <figure class="tile" data-category="snow">
+        <div class="scene snow">
+          <svg viewBox="0 0 300 220" preserveAspectRatio="none">
+            <polygon points="0,220 90,80 160,220" fill="#dff0f8"/>
+            <polygon points="120,220 210,60 300,220" fill="#cdeefa"/>
+            <circle cx="60" cy="40" r="10" fill="#fff"/>
+          </svg>
+        </div>
+        <figcaption>
+          <p class="cap-tag">Snow / 山</p>
+          <p class="cap-title">滑走前の斜面</p>
+        </figcaption>
+      </figure>
+
+      <figure class="tile" data-category="sky">
+        <div class="scene sky">
+          <svg viewBox="0 0 300 220" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#8cf5d1" stop-opacity="0"/>
+                <stop offset="50%" stop-color="#a8c8f5" stop-opacity=".7"/>
+                <stop offset="100%" stop-color="#c9a8f5" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,90 C60,50 120,120 180,80 C220,55 260,90 300,70 L300,150 C240,180 180,130 120,150 C70,168 30,140 0,160 Z" fill="url(#g1)"/>
+          </svg>
+        </div>
+        <figcaption>
+          <p class="cap-tag">Sky / オーロラ</p>
+          <p class="cap-title">揺れる光の帯</p>
+        </figcaption>
+      </figure>
+
+      <figure class="tile" data-category="ice">
+        <div class="scene ice">
+          <svg viewBox="0 0 300 220" preserveAspectRatio="none">
+            <path d="M0,140 C50,110 100,160 150,130 C200,100 250,150 300,120 L300,220 L0,220 Z" fill="#bfe4f3"/>
+            <path d="M40,60 L45,90 L75,92 L50,108 L58,138 L40,120 L22,138 L30,108 L5,92 L35,90 Z" fill="#fff" opacity=".9"/>
+          </svg>
+        </div>
+        <figcaption>
+          <p class="cap-tag">Ice / ストーン</p>
+          <p class="cap-title">ハウスの静けさ</p>
+        </figcaption>
+      </figure>
+
+      <figure class="tile" data-category="snow">
+        <div class="scene snow">
+          <svg viewBox="0 0 300 220" preserveAspectRatio="none">
+            <path d="M0,170 C50,150 100,190 150,165 C200,140 250,180 300,160 L300,220 L0,220 Z" fill="#e5f5fb"/>
+            <path d="M60,150 L100,150 L80,100 Z" fill="#cdeefa"/>
+            <path d="M170,150 L220,150 L195,90 Z" fill="#dff0f8"/>
+          </svg>
+        </div>
+        <figcaption>
+          <p class="cap-tag">Snow / パイプ</p>
+          <p class="cap-title">壁を蹴る瞬間</p>
+        </figcaption>
+      </figure>
+
+      <figure class="tile" data-category="sky">
+        <div class="scene sky">
+          <svg viewBox="0 0 300 220" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#f5a8d1" stop-opacity="0"/>
+                <stop offset="50%" stop-color="#8cf5d1" stop-opacity=".6"/>
+                <stop offset="100%" stop-color="#a8c8f5" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,60 C60,100 120,40 180,80 C220,105 260,60 300,90 L300,40 C240,15 180,55 120,25 C70,5 30,35 0,15 Z" fill="url(#g2)"/>
+            <circle cx="250" cy="180" r="3" fill="#fff"/>
+            <circle cx="60" cy="190" r="2" fill="#fff"/>
+            <circle cx="150" cy="170" r="2.5" fill="#fff"/>
+          </svg>
+        </div>
+        <figcaption>
+          <p class="cap-tag">Sky / 夜空</p>
+          <p class="cap-title">試合後の帰り道</p>
+        </figcaption>
+      </figure>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="index.html">銀世界ノート</a>
+      <p>冬季スポーツについて学んだことを、自分のペースで記録していく個人サイトです。</p>
+    </div>
+    <div class="footer-links">
+      <div>
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 銀世界ノート</span>
+    <span>Individual study notes on winter sports</span>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var buttons = document.querySelectorAll('.filter-btn');
+    var tiles = document.querySelectorAll('.tile');
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        buttons.forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        var filter = btn.getAttribute('data-filter');
+        tiles.forEach(function(tile){
+          var match = filter === 'all' || tile.getAttribute('data-category') === filter;
+          tile.classList.toggle('is-hidden', !match);
+        });
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
