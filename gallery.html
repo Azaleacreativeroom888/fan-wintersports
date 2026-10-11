@@ -190,6 +190,16 @@
     nav.main-nav ul{ display:none; }
   }
   @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+
+  /* mobile menu */
+  .nav-toggle{ display:none; background:none; border:0; color:#fff; font-size:1.5rem; line-height:1; cursor:pointer; padding:.2em .3em; }
+  @media (max-width: 780px){
+    .nav-toggle{ display:block; }
+    header.site-header{ flex-wrap:wrap; }
+    nav.main-nav{ display:none; width:100%; }
+    nav.main-nav.open{ display:block; }
+    nav.main-nav ul{ display:flex; flex-direction:column; gap:.7em; padding:1em 0 .4em; }
+  }
 </style>
 </head>
 <body>
@@ -197,7 +207,8 @@
 
 <header class="site-header">
   <a class="brand" href="index.html">銀世界ノート <small>Snow &amp; Ice Study</small></a>
-  <nav class="main-nav" aria-label="サイト内ナビゲーション">
+  <button class="nav-toggle" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="siteNav">☰</button>
+  <nav class="main-nav" id="siteNav" aria-label="サイト内ナビゲーション">
     <ul>
       <li><a href="index.html">HOME</a></li>
       <li><a href="blog.html">BLOG</a></li>
@@ -388,5 +399,15 @@
   })();
 </script>
 
+<script>
+  (function(){
+    var t = document.querySelector('.nav-toggle'), n = document.getElementById('siteNav');
+    if(!t || !n) return;
+    t.addEventListener('click', function(){
+      var open = n.classList.toggle('open');
+      t.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  })();
+</script>
 </body>
 </html>
