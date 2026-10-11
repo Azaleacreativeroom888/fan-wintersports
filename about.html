@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABOUT | 銀世界ノート</title>
+<meta name="description" content="銀世界ノートについて、運営者のこと、リンク集、お問い合わせフォームをまとめたページです。">
+<style>
+  :root{
+    --sky: #cdeefa;
+    --sky-pale: #eaf8fd;
+    --sky-deep: #4fa8d8;
+    --night: #16213e;
+    --night-2: #1f2f52;
+    --snow: #fbfdff;
+    --ink: #22314a;
+    --ink-soft: #4d5f7d;
+    --aurora-1: #8cf5d1;
+    --aurora-2: #a8c8f5;
+    --aurora-3: #c9a8f5;
+    --aurora-4: #f5a8d1;
+    --line: #d3e9f2;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--snow);
+    color: var(--ink);
+    font-family: "Zen Maru Gothic","Noto Sans JP", sans-serif;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,h2,h3, .brand{
+    font-family: "Zen Old Mincho","Shippori Mincho", serif;
+    letter-spacing: 0.04em;
+  }
+  a{ color: inherit; text-decoration: none; }
+
+  .skip-link{
+    position:absolute; left:-999px; top:0;
+    background:#fff; color:#111; padding:.6em 1em; z-index:200;
+  }
+  .skip-link:focus{ left: 1em; top: 1em; }
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+    outline: 3px solid var(--aurora-3);
+    outline-offset: 3px;
+  }
+
+  /* ---------- header / nav ---------- */
+  header.site-header{
+    position: sticky; top:0; z-index: 100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 0.9em 5%;
+    background: rgba(22,33,62,0.88);
+    backdrop-filter: blur(6px);
+    color: #fff;
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:.6em;
+    font-size: 1.15rem;
+    color:#fff;
+  }
+  .brand small{
+    font-family: "Zen Maru Gothic", sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: .18em;
+    color: var(--aurora-2);
+    text-transform: uppercase;
+  }
+  nav.main-nav ul{
+    list-style:none; display:flex; gap: 1.8em; margin:0; padding:0;
+    font-size: 0.85rem; letter-spacing: .06em;
+  }
+  nav.main-nav a{
+    position:relative; padding: .2em 0; color: #eaf6fb;
+  }
+  nav.main-nav a::after{
+    content:""; position:absolute; left:0; bottom:-3px; width:0; height:1px;
+    background: linear-gradient(90deg,var(--aurora-1),var(--aurora-3));
+    transition: width .25s ease;
+  }
+  nav.main-nav a:hover::after, nav.main-nav a[aria-current]::after{ width:100%; }
+  nav.main-nav a[aria-current]{ color: var(--aurora-1); }
+
+  /* ---------- page hero (small) ---------- */
+  .page-hero{
+    position: relative; overflow:hidden;
+    padding: 4.5em 6% 6em;
+    text-align:center; color:#fff;
+    background: linear-gradient(160deg, var(--night) 0%, var(--night-2) 55%, var(--sky-deep) 130%);
+  }
+  .page-hero .band{
+    position:absolute; inset:auto 0 -10% 0; height:70%;
+    mix-blend-mode: screen; opacity:.6; pointer-events:none;
+  }
+  .page-hero .band svg{ width:100%; height:100%; }
+  .page-hero .eyebrow{
+    font-size:.75rem; letter-spacing:.32em; text-transform:uppercase; color: var(--aurora-2);
+    margin: 0 0 .8em; position:relative; z-index:2;
+  }
+  .page-hero h1{ margin:0; font-size: clamp(1.9rem,5vw,2.7rem); position:relative; z-index:2; }
+  .page-hero p.lead{ color:#dceefa; max-width:32em; margin: .8em auto 0; font-size:.95rem; position:relative; z-index:2; }
+
+  .wave-divider{ display:block; width:100%; line-height:0; margin-top:-4px; }
+  .wave-divider svg{ width:100%; height: 60px; display:block; }
+
+  /* ---------- main ---------- */
+  main{ background: var(--snow); }
+  .about-wrap{ max-width: 900px; margin: 0 auto; padding: 4em 6% 6em; }
+
+  .section-label{
+    display:flex; align-items:center; gap:.9em;
+    font-family: "JetBrains Mono", monospace;
+    font-size:.72rem; letter-spacing:.2em; text-transform:uppercase;
+    color: var(--sky-deep);
+    margin: 0 0 1.2em;
+  }
+  .section-label::after{
+    content:""; flex:1; height:1px;
+    background: linear-gradient(90deg, var(--line), transparent);
+  }
+  .block{ margin-bottom: 3.6em; }
+
+  .card{
+    position:relative;
+    background:#fff; border:1px solid var(--line); border-radius: 18px;
+    padding: 1.8em 2em;
+    box-shadow: 0 18px 40px -30px rgba(22,33,62,.35);
+  }
+  .card::before{
+    content:""; position:absolute; left:0; top:14px; bottom:14px; width:3px; border-radius:3px;
+    background: linear-gradient(180deg, var(--aurora-1), var(--aurora-2), var(--aurora-3));
+  }
+  .card h2{ margin:0 0 .6em; font-size:1.25rem; }
+  .card p{ margin:0 0 1em; color: var(--ink-soft); font-size:.94rem; }
+  .card p:last-child{ margin-bottom:0; }
+
+  /* ---------- link cards ---------- */
+  .link-grid{
+    display:grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+    gap: 1em; margin-bottom: 2.2em;
+  }
+  .link-card{
+    position:relative; overflow:hidden;
+    display:flex; align-items:center; gap:1em;
+    background:#fff; border:1px solid var(--line); border-radius: 14px;
+    padding: 1em 1.2em;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .link-card::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+    background: linear-gradient(180deg, var(--aurora-1), var(--sky-deep));
+  }
+  .link-card:hover{
+    transform: translateY(-3px); border-color: var(--sky-deep);
+    box-shadow: 0 16px 28px -22px rgba(22,33,62,.45);
+  }
+  .link-icon{
+    flex:0 0 44px; height:44px; display:flex; align-items:center; justify-content:center;
+    font-size:1.35rem; border-radius: 12px; background: var(--sky-pale);
+  }
+  .link-text{ flex:1; min-width:0; }
+  .link-name{ display:block; font-weight:700; font-size:.92rem; color: var(--ink); line-height:1.5; }
+  .link-desc{ display:block; font-size:.76rem; color: var(--ink-soft); line-height:1.6; }
+  .link-arrow{ color: var(--sky-deep); font-size:1.2rem; transition: transform .25s ease; }
+  .link-card:hover .link-arrow{ transform: translateX(3px); }
+
+  /* ---------- form ---------- */
+  .form-intro{ color: var(--ink-soft); font-size:.9rem; margin: 0 0 1.6em; }
+  .form-group{ margin-bottom: 1.2em; }
+  .form-label{
+    display:block; font-size:.78rem; letter-spacing:.1em; color: var(--ink-soft); margin-bottom:.4em;
+  }
+  .required{ color:#d0587a; font-style:normal; }
+  .form-input, .form-textarea{
+    width:100%; font-family: inherit; font-size:.95rem; color: var(--ink);
+    background: var(--sky-pale); border:1px solid var(--line); border-radius: 12px;
+    padding: .75em 1em; transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .form-input::placeholder, .form-textarea::placeholder{ color:#9fb4c4; }
+  .form-input:focus, .form-textarea:focus{
+    outline:none; background:#fff; border-color: var(--sky-deep);
+    box-shadow: 0 0 0 4px rgba(79,168,216,.15);
+  }
+  .form-textarea{ min-height: 150px; resize: vertical; }
+  .field-error{ display:block; font-size:.74rem; color:#d0587a; margin-top:.3em; }
+  .form-submit{
+    display:inline-flex; align-items:center; gap:.6em;
+    font-family: inherit; font-size:.9rem; font-weight:700; letter-spacing:.08em;
+    padding: .85em 2em; border:none; border-radius: 999px; cursor:pointer;
+    background: linear-gradient(90deg, var(--aurora-1), var(--aurora-2) 55%, var(--aurora-3));
+    color: var(--night); transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .form-submit:hover{ transform: translateY(-2px); box-shadow: 0 12px 22px -14px rgba(22,33,62,.5); }
+  .form-submit:disabled{ opacity:.5; cursor:not-allowed; transform:none; box-shadow:none; }
+  .form-success{
+    background: #e9fbf4; border:1px solid #bdeedb; color:#216a53;
+    border-radius: 12px; padding: 1em 1.2em; text-align:center; font-size:.92rem; margin-bottom: 1.2em;
+  }
+  .form-error-global{
+    background:#fff0f4; border:1px solid #f5c3d1; color:#b0405e;
+    border-radius: 12px; padding:.9em 1.1em; font-size:.88rem; margin-bottom:1.2em;
+  }
+
+  .back-link{
+    display:inline-flex; align-items:center; gap:.5em;
+    font-size:.82rem; letter-spacing:.06em; color: var(--ink-soft);
+    padding: .65em 1.3em; border:1px solid var(--line); border-radius: 999px;
+    transition: color .2s ease, border-color .2s ease;
+  }
+  .back-link:hover{ color: var(--sky-deep); border-color: var(--sky-deep); }
+
+  /* ---------- footer ---------- */
+  footer{
+    position:relative; margin-top: 2em; padding: 4em 6% 2.4em;
+    background: linear-gradient(180deg, var(--sky-pale), var(--sky));
+    color: var(--ink);
+  }
+  .footer-grid{
+    display:flex; flex-wrap:wrap; gap:2.5em; justify-content:space-between;
+    max-width: 1180px; margin: 0 auto 2.5em;
+  }
+  .footer-brand .brand{ color: var(--ink); font-size:1.1rem; }
+  .footer-brand p{ color: var(--ink-soft); max-width: 24em; font-size:.86rem; }
+  .footer-links h4{
+    font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color: var(--sky-deep);
+    margin:0 0 .8em;
+  }
+  .footer-links ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.55em; font-size:.88rem; }
+  .footer-links a:hover{ color: var(--sky-deep); }
+  .footer-notice{
+    max-width: 800px; margin: 0 auto 1.6em; text-align:center;
+    font-size:.7rem; line-height:1.9; color: var(--ink-soft);
+  }
+  .footer-notice p{ margin: 0 0 .5em; }
+  .footer-bottom{
+    max-width:1180px; margin:0 auto; padding-top:1.6em; border-top:1px solid rgba(34,49,74,.12);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:.6em;
+    font-size:.76rem; color: var(--ink-soft);
+  }
+
+  @media (max-width: 780px){
+    nav.main-nav ul{ display:none; }
+    .about-wrap{ padding: 3em 5% 5em; }
+    .card{ padding: 1.5em 1.4em; }
+    .link-grid{ grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+
+  /* mobile menu */
+  .nav-toggle{ display:none; background:none; border:0; color:#fff; font-size:1.5rem; line-height:1; cursor:pointer; padding:.2em .3em; }
+  @media (max-width: 780px){
+    .nav-toggle{ display:block; }
+    header.site-header{ flex-wrap:wrap; }
+    nav.main-nav{ display:none; width:100%; }
+    nav.main-nav.open{ display:block; }
+    nav.main-nav ul{ display:flex; flex-direction:column; gap:.7em; padding:1em 0 .4em; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="site-header">
+  <a class="brand" href="index.html">銀世界ノート <small>Snow &amp; Ice Study</small></a>
+  <button class="nav-toggle" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="siteNav">☰</button>
+  <nav class="main-nav" id="siteNav" aria-label="サイト内ナビゲーション">
+    <ul>
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="blog.html">BLOG</a></li>
+      <li><a href="gallery.html">GALLERY</a></li>
+      <li><a href="about.html" aria-current="page">ABOUT</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="band" aria-hidden="true">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="bandGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#c9a8f5" stop-opacity="0"/>
+          <stop offset="45%" stop-color="#8cf5d1" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="#f5a8d1" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="M0,120 C200,60 400,170 600,110 C800,50 1000,150 1200,100 L1200,250 C1000,290 800,210 600,240 C400,270 200,220 0,250 Z" fill="url(#bandGrad)"/>
+    </svg>
+  </div>
+  <p class="eyebrow">About &amp; Contact</p>
+  <h1>ABOUT</h1>
+  <p class="lead">このノートのこと、書いている人のこと、連絡先。</p>
+</div>
+
+<div class="wave-divider" aria-hidden="true">
+  <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+    <path d="M0,35 C150,10 300,50 450,30 C600,10 750,45 900,25 C1000,12 1100,28 1200,20 L1200,60 L0,60 Z" fill="#fbfdff"/>
+  </svg>
+</div>
+
+<main id="main">
+  <div class="about-wrap">
+
+    <section class="block">
+      <p class="section-label">About this site</p>
+      <div class="card">
+        <h2>銀世界ノートについて</h2>
+        <p>冬季スポーツについて学んだことを、自分のペースで書き留めていく個人の勉強サイトです。フィギュアスケート、スキー、スノーボード、アイスホッケー、スピードスケート、カーリングなど、気になった種目から少しずつ調べています。</p>
+        <p>専門家による解説ではなく、学びながら書いているノートです。理解が浅い部分や間違いがあるかもしれません。お気づきの点があれば、下のフォームから教えてもらえるとうれしいです。</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <p class="section-label">Author</p>
+      <div class="card">
+        <h2>運営者</h2>
+        <p>Azalea72（りっちゃん）。漫画とイラストを描いています。オリジナル漫画はジャンプルーキーで、イラストはPixivで公開しています。</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <p class="section-label">漫画・イラスト掲載サイト</p>
+      <div class="link-grid">
+        <a class="link-card" href="https://rookie.shonenjump.com/users/14728546961183734555" target="_blank" rel="noopener">
+          <div class="link-icon">📚</div>
+          <div class="link-text">
+            <span class="link-name">ジャンプルーキー</span>
+            <span class="link-desc">オリジナル漫画を掲載中</span>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-card" href="https://www.pixiv.net/users/105728284" target="_blank" rel="noopener">
+          <div class="link-icon">🎨</div>
+          <div class="link-text">
+            <span class="link-name">Pixiv</span>
+            <span class="link-desc">二次創作はこちらに掲載</span>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+      </div>
+
+      <p class="section-label">SNS・その他</p>
+      <div class="link-grid">
+        <a class="link-card" href="https://bsky.app/profile/azaleaazalea88.bsky.social" target="_blank" rel="noopener">
+          <div class="link-icon">🦋</div>
+          <div class="link-text">
+            <span class="link-name">Bluesky</span>
+            <span class="link-desc">近況・作品のお知らせ</span>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-card" href="https://www.youtube.com/@LilyPopins0512" target="_blank" rel="noopener">
+          <div class="link-icon">🎬</div>
+          <div class="link-text">
+            <span class="link-name">YouTube（リリポピ）</span>
+            <span class="link-desc">動画チャンネル</span>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-card" href="https://lilipopi.github.io/lilypopins/" target="_blank" rel="noopener">
+          <div class="link-icon">🌸</div>
+          <div class="link-text">
+            <span class="link-name">リリポピのホームページ</span>
+            <span class="link-desc">別サイト</span>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+      </div>
+
+      <p class="section-label">Azalea72のホームページ</p>
+      <div class="link-grid">
+        <a class="link-card" href="https://azaleacreativeroom888.github.io/storyreviewazalea/" target="_blank" rel="noopener">
+          <div class="link-icon">📖</div>
+          <div class="link-text">
+            <span class="link-name">書評サイト</span>
+            <span class="link-desc">本・アニメ・映画・ゲーム・小説の備忘録</span>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-card" href="https://azaleacreativeroom888.github.io/fan-english/" target="_blank" rel="noopener">
+          <div class="link-icon">🍔</div>
+          <div class="link-text">
+            <span class="link-name">英語サイト（English Site）</span>
+            <span class="link-desc">英語話者と英語学習者に向けたサイト</span>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-card" href="https://azaleacreativeroom888.github.io/fan-watercolor/" target="_blank" rel="noopener">
+          <div class="link-icon">☁️</div>
+          <div class="link-text">
+            <span class="link-name">水彩画サイト</span>
+            <span class="link-desc">水彩画掲載</span>
+          </div>
+          <span class="link-arrow">›</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="block" id="contact">
+      <p class="section-label">お問い合わせフォーム</p>
+      <div class="card">
+        <p class="form-intro">ご質問・ご感想・間違いのご指摘などはこちらからどうぞ。<br>Gmailで受け取り、返信いたします。</p>
+
+        <div data-fs-success class="form-success" style="display:none;">
+          <p>メッセージを送信しました。ありがとうございます！</p>
+        </div>
+        <div data-fs-error class="form-error-global" style="display:none;"></div>
+
+        <form id="contact-form" action="https://formspree.io/f/maqvpvoz" method="POST">
+          <div class="form-group">
+            <label class="form-label" for="name">お名前</label>
+            <input class="form-input" type="text" id="name" name="name" placeholder="お名前（ニックネーム可）">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">メールアドレス <span class="required">*</span></label>
+            <input class="form-input" type="email" id="email" name="email" data-fs-field placeholder="example@email.com" required>
+            <span data-fs-error="email" class="field-error"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="message">メッセージ <span class="required">*</span></label>
+            <textarea class="form-textarea" id="message" name="message" data-fs-field placeholder="メッセージを入力してください…" rows="6" required></textarea>
+            <span data-fs-error="message" class="field-error"></span>
+          </div>
+          <button class="form-submit" type="submit" data-fs-submit-btn>📮 送信する</button>
+        </form>
+      </div>
+    </section>
+
+    <a class="back-link" href="index.html">← トップページに戻る</a>
+
+  </div>
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="index.html">銀世界ノート</a>
+      <p>冬季スポーツについて学んだことを、自分のペースで記録していく個人サイトです。</p>
+    </div>
+    <div class="footer-links">
+      <div>
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-notice">
+    <p>当サイトに掲載されている画像・文章・作品について、AI学習への利用、トレース（トレパク）、無断転載・転載、二次利用を禁止します。スクリーンショットの転載・無断引用はご遠慮ください。</p>
+    <p>Please refrain from using any images, text, or works on this website for AI training, tracing, unauthorized reproduction, redistribution, or secondary use.</p>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 銀世界ノート</span>
+    <span>Individual study notes on winter sports</span>
+  </div>
+</footer>
+
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#contact-form', formId: 'maqvpvoz' });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+<script>
+  (function(){
+    var t = document.querySelector('.nav-toggle'), n = document.getElementById('siteNav');
+    if(!t || !n) return;
+    t.addEventListener('click', function(){
+      var open = n.classList.toggle('open');
+      t.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  })();
+</script>
+</body>
+</html>
