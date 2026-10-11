@@ -189,6 +189,16 @@
     .diary{ padding: 4em 6%; }
   }
   @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+
+  /* mobile menu */
+  .nav-toggle{ display:none; background:none; border:0; color:#fff; font-size:1.5rem; line-height:1; cursor:pointer; padding:.2em .3em; }
+  @media (max-width: 780px){
+    .nav-toggle{ display:block; }
+    header.site-header{ flex-wrap:wrap; }
+    nav.main-nav{ display:none; width:100%; }
+    nav.main-nav.open{ display:block; }
+    nav.main-nav ul{ display:flex; flex-direction:column; gap:.7em; padding:1em 0 .4em; }
+  }
 </style>
 </head>
 <body>
@@ -196,7 +206,8 @@
 
 <header class="site-header">
   <a class="brand" href="index.html">銀世界ノート <small>Snow &amp; Ice Study</small></a>
-  <nav class="main-nav" aria-label="サイト内ナビゲーション">
+  <button class="nav-toggle" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="siteNav">☰</button>
+  <nav class="main-nav" id="siteNav" aria-label="サイト内ナビゲーション">
     <ul>
       <li><a href="index.html">HOME</a></li>
       <li><a href="blog.html" aria-current="page">BLOG</a></li>
@@ -236,14 +247,50 @@
       <p>日々の勉強メモです。内容は思いつくまま、日付順に並んでいます。</p>
     </div>
 
-    <div class="month-label">2026</div>
+    <div class="month-label">2026 / 08</div>
 
     <article class="entry">
-      <time>10.11</time>
-      <p>ミラノ・コルティナ2026冬季オリンピックを観返してる。そっか金メダル５個だったんだね。総合で24個。
-      男子ハーフパイプ、男子ビッグエア、女子スロープスタイル、女子ビッグエア、フィギュアスケートペアの金メダル５個。</p>
+      <time>08.03</time>
+      <p>フィギュアスケートの回転不足判定について調べた。踏切と着氷のエッジをどう見分けるか、まだ完全にはわからないけれど、少しずつ動画で目が慣れてきた気がする。</p>
     </article>
 
+    <article class="entry">
+      <time>08.01</time>
+      <p>スピードスケートとショートトラックの違いをノートにまとめた。同じ「氷上を滑る速さ比べ」でも、トラックの形もルールも別物なのが面白い。</p>
+    </article>
+
+    <div class="month-label">2026 / 07</div>
+
+    <article class="entry">
+      <time>07.28</time>
+      <p>カーリングのストーンの重さとハウスの構造を確認。思っていたより緻密な戦略ゲームで、「氷上のチェス」と呼ばれる理由が少しわかった。</p>
+    </article>
+
+    <article class="entry">
+      <time>07.19</time>
+      <p>アルペンスキーの種目差(滑降・スーパー大回転・大回転・回転)を整理した。ゲートの間隔とスピードの関係がポイントらしい。</p>
+    </article>
+
+    <article class="entry">
+      <time>07.10</time>
+      <p>スノーボードのハーフパイプとスロープスタイルの採点基準を比較。技の難易度だけでなく、構成の組み立て方も評価されるのが興味深い。</p>
+    </article>
+
+    <div class="month-label">2026 / 06</div>
+
+    <article class="entry">
+      <time>06.22</time>
+      <p>アイスホッケーのポジションとオフサイドのルールを勉強した。ルールは複雑だけど、試合のスピード感がなぜ生まれるのか少し見えてきた。</p>
+    </article>
+
+    <article class="entry">
+      <time>06.09</time>
+      <p>このサイトを作り始めた日。まずは学んだことを書き留める場所として、少しずつ育てていきたい。</p>
+    </article>
+
+    <div class="load-more">
+      <a class="btn" href="#main">これより前の記録（準備中）</a>
+    </div>
   </div>
 </main>
 
@@ -271,5 +318,15 @@
   </div>
 </footer>
 
+<script>
+  (function(){
+    var t = document.querySelector('.nav-toggle'), n = document.getElementById('siteNav');
+    if(!t || !n) return;
+    t.addEventListener('click', function(){
+      var open = n.classList.toggle('open');
+      t.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  })();
+</script>
 </body>
 </html>
